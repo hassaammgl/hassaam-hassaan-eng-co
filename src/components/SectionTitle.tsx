@@ -6,11 +6,18 @@ interface SectionTitleProps {
   subtitle: string;
   className?: string;
   light?: boolean;
+  align?: 'left' | 'center' | 'right';
 }
 
-const SectionTitle = ({ title, subtitle, className = '', light = false }: SectionTitleProps) => {
+const SectionTitle = ({ 
+  title, 
+  subtitle, 
+  className = '', 
+  light = false,
+  align = 'center' 
+}: SectionTitleProps) => {
   return (
-    <div className={`text-center mb-16 ${className}`}>
+    <div className={`${align === 'center' ? 'text-center' : align === 'left' ? 'text-left' : 'text-right'} mb-16 ${className}`}>
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +34,7 @@ const SectionTitle = ({ title, subtitle, className = '', light = false }: Sectio
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
         viewport={{ once: true }}
-        className={`text-lg max-w-3xl mx-auto ${
+        className={`text-lg max-w-3xl ${align === 'center' ? 'mx-auto' : ''} ${
           light ? 'text-white/80' : 'text-steelworks-gray'
         }`}
       >

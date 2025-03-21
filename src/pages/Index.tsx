@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import {
@@ -35,13 +34,25 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="relative h-screen flex items-center" id="home">
-        <div className="absolute inset-0 bg-gradient-to-r from-steelworks-black/70 to-steelworks-black/50 z-10" />
+        {/* Background Image Layer */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')`,
+            backgroundAttachment: 'fixed' 
+          }}
+        ></div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-steelworks-black/80 to-steelworks-black/60 z-10"></div>
+        
+        {/* Video Background */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-5"
         >
           <source src="https://assets.mixkit.co/videos/preview/mixkit-welding-a-metal-sheet-10392-large.mp4" type="video/mp4" />
         </video>
