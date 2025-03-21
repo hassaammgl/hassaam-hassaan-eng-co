@@ -28,28 +28,47 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           <motion.a
             href="/"
-            className="text-2xl font-display font-bold text-steel-900"
+            className={`text-2xl font-display font-bold ${
+              isScrolled ? 'text-steelworks-blue' : 'text-white'
+            }`}
             whileHover={{ scale: 1.05 }}
           >
             STEELWORKS
           </motion.a>
 
           <div className="hidden md:flex items-center space-x-8">
-            {['Products', 'Services', 'Gallery', 'About', 'Contact'].map((item) => (
+            {[
+              { name: 'Home', link: '#home' },
+              { name: 'About', link: '#about' },
+              { name: 'Services', link: '#services' },
+              { name: 'Products', link: '#products' },
+              { name: 'Testimonials', link: '#testimonials' },
+              { name: 'Contact', link: '#contact' }
+            ].map((item) => (
               <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-steel-800 hover:text-steel-600 transition-colors"
+                key={item.name}
+                href={item.link}
+                className={`${
+                  isScrolled ? 'text-steelworks-gray' : 'text-white'
+                } hover:text-steelworks-yellow transition-colors`}
                 whileHover={{ y: -2 }}
               >
-                {item}
+                {item.name}
               </motion.a>
             ))}
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className={isScrolled ? 'text-steelworks-gray' : 'text-white hover:bg-white/10'}
+              >
                 <Search className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className={isScrolled ? 'text-steelworks-gray' : 'text-white hover:bg-white/10'}
+              >
                 <ShoppingCart className="w-5 h-5" />
               </Button>
             </div>
@@ -58,7 +77,7 @@ const Navigation = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className={`md:hidden ${isScrolled ? 'text-steelworks-gray' : 'text-white'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -75,14 +94,22 @@ const Navigation = () => {
             className="md:hidden bg-white border-t"
           >
             <div className="container mx-auto px-4 py-4">
-              {['Products', 'Services', 'Gallery', 'About', 'Contact'].map((item) => (
+              {[
+                { name: 'Home', link: '#home' },
+                { name: 'About', link: '#about' },
+                { name: 'Services', link: '#services' },
+                { name: 'Products', link: '#products' },
+                { name: 'Testimonials', link: '#testimonials' },
+                { name: 'Contact', link: '#contact' }
+              ].map((item) => (
                 <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block py-3 text-steel-800 hover:text-steel-600 transition-colors"
+                  key={item.name}
+                  href={item.link}
+                  className="block py-3 text-steelworks-gray hover:text-steelworks-blue transition-colors"
                   whileHover={{ x: 10 }}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item}
+                  {item.name}
                 </motion.a>
               ))}
             </div>
