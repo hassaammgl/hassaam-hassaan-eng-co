@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import {
   ArrowRight,
@@ -13,11 +14,16 @@ import {
   MapPin,
   Send,
   Clock,
+  MessageSquare,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SectionTitle from '@/components/SectionTitle';
 import ServiceCard from '@/components/ServiceCard';
 import TestimonialCard from '@/components/TestimonialCard';
+import ProductCard from '@/components/ProductCard';
+import FAQItem from '@/components/FAQItem';
+import GalleryImage from '@/components/GalleryImage';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
@@ -26,8 +32,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { products } from '@/data/products';
+import { faqs } from '@/data/faqs';
+import { galleryImages } from '@/data/gallery';
 
 const Index = () => {
+  // Display only 4 featured products on the homepage
+  const featuredProducts = products.slice(0, 4);
+  
+  // Display only 4 FAQs on the homepage
+  const featuredFaqs = faqs.slice(0, 4);
+  
+  // Display only 6 gallery images on the homepage
+  const featuredGallery = galleryImages.slice(0, 6);
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -259,6 +277,45 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Products Section */}
+      <section className="py-20 bg-white" id="products">
+        <div className="container mx-auto px-4">
+          <SectionTitle 
+            title="Featured Products" 
+            subtitle="Discover our range of premium steel and iron products crafted with precision and attention to detail."
+          />
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                imageUrl={product.imageUrl}
+                category={product.category}
+                description={product.description}
+              />
+            ))}
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mt-12 text-center"
+          >
+            <Link to="/products">
+              <Button className="bg-steelworks-blue hover:bg-steelworks-blue/90">
+                View All Products
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Why Choose Us Section */}
       <section className="py-20 bg-steelworks-blue text-white relative overflow-hidden" id="why-us">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1578598336003-63a1e356c668?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1536&q=80')] bg-cover bg-center opacity-20"></div>
@@ -317,6 +374,80 @@ const Index = () => {
               <p className="text-white/80">
                 We respect your timelines and deliver projects on schedule without compromising on quality, keeping you informed throughout the process.
               </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="py-20 bg-white" id="gallery">
+        <div className="container mx-auto px-4">
+          <SectionTitle 
+            title="Project Gallery" 
+            subtitle="Explore our portfolio of completed projects showcasing our craftsmanship and attention to detail."
+          />
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredGallery.map((image) => (
+              <GalleryImage 
+                key={image.id}
+                id={image.id}
+                title={image.title}
+                imageUrl={image.imageUrl}
+                category={image.category}
+              />
+            ))}
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mt-12 text-center"
+          >
+            <Link to="/gallery">
+              <Button className="bg-steelworks-blue hover:bg-steelworks-blue/90">
+                View Complete Gallery
+                <ImageIcon className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-steelworks-lightgray" id="faq">
+        <div className="container mx-auto px-4">
+          <SectionTitle 
+            title="Frequently Asked Questions" 
+            subtitle="Find answers to common questions about our products, services, and processes."
+          />
+          
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              {featuredFaqs.map((faq) => (
+                <FAQItem 
+                  key={faq.id} 
+                  question={faq.question} 
+                  answer={faq.answer} 
+                />
+              ))}
+            </div>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mt-8 text-center"
+            >
+              <Link to="/faqs">
+                <Button className="bg-steelworks-blue hover:bg-steelworks-blue/90">
+                  View All FAQs
+                  <MessageSquare className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </div>

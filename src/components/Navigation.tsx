@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingCart, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +17,21 @@ const Navigation = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const navItems = [
+    { name: 'Home', link: '/' },
+    { name: 'About', link: '/#about' },
+    { name: 'Services', link: '/#services' },
+    { name: 'Products', link: '/products' },
+    { name: 'Gallery', link: '/gallery' },
+    { name: 'FAQs', link: '/faqs' },
+    { name: 'Contact', link: '/#contact' }
+  ];
+
+  const isActive = (path: string) => {
+    if (path.startsWith('/#')) return false;
+    return location.pathname === path;
+  };
 
   return (
     <motion.nav
@@ -26,35 +43,33 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <motion.a
-            href="/"
-            className={`text-2xl font-display font-bold ${
-              isScrolled ? 'text-steelworks-blue' : 'text-white'
-            }`}
-            whileHover={{ scale: 1.05 }}
-          >
-            STEELWORKS
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Link 
+              to="/"
+              className={`text-2xl font-display font-bold ${
+                isScrolled ? 'text-steelworks-blue' : 'text-white'
+              }`}
+            >
+              STEELWORKS
+            </Link>
+          </motion.div>
 
           <div className="hidden md:flex items-center space-x-8">
-            {[
-              { name: 'Home', link: '#home' },
-              { name: 'About', link: '#about' },
-              { name: 'Services', link: '#services' },
-              { name: 'Products', link: '#products' },
-              { name: 'Testimonials', link: '#testimonials' },
-              { name: 'Contact', link: '#contact' }
-            ].map((item) => (
-              <motion.a
-                key={item.name}
-                href={item.link}
-                className={`${
-                  isScrolled ? 'text-steelworks-gray' : 'text-white'
-                } hover:text-steelworks-yellow transition-colors`}
-                whileHover={{ y: -2 }}
-              >
-                {item.name}
-              </motion.a>
+            {navItems.map((item) => (
+              <motion.div key={item.name} whileHover={{ y: -2 }}>
+                <Link
+                  to={item.link}
+                  className={`${
+                    isActive(item.link) 
+                      ? 'text-steelworks-yellow' 
+                      : isScrolled 
+                        ? 'text-steelworks-gray' 
+                        : 'text-white'
+                  } hover:text-steelworks-yellow transition-colors`}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
             <div className="flex items-center space-x-4">
               <Button 
@@ -94,23 +109,19 @@ const Navigation = () => {
             className="md:hidden bg-white border-t"
           >
             <div className="container mx-auto px-4 py-4">
-              {[
-                { name: 'Home', link: '#home' },
-                { name: 'About', link: '#about' },
-                { name: 'Services', link: '#services' },
-                { name: 'Products', link: '#products' },
-                { name: 'Testimonials', link: '#testimonials' },
-                { name: 'Contact', link: '#contact' }
-              ].map((item) => (
-                <motion.a
+              {navItems.map((item) => (
+                <motion.div
                   key={item.name}
-                  href={item.link}
-                  className="block py-3 text-steelworks-gray hover:text-steelworks-blue transition-colors"
                   whileHover={{ x: 10 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.name}
-                </motion.a>
+                  <Link
+                    to={item.link}
+                    className={`block py-3 ${isActive(item.link) ? 'text-steelworks-yellow' : 'text-steelworks-gray'} hover:text-steelworks-blue transition-colors`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </motion.div>
